@@ -1,311 +1,49 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- ✅ مهم -->
-  <title>كيان - Chatbot</title>
-  <style>
-    body {
-      font-family: "Cairo", sans-serif;
-      margin: 0;
-      background: url("-1_orig.jpeg") no-repeat center center;
-      background-size: cover;
-      background-attachment: scroll; /* ✅ تعديل عشان الموبايل */
-      display: flex;
-      flex-direction: column;
-      height: 100vh;
-    }
-
-    header {
-      background: linear-gradient(90deg, #600000, #800000);
-      padding: 15px 30px;
-      color: #fff;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    header h1 { margin: 0; font-size: 18px; }
-
-    .container {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 20px;
-      overflow-y: auto;
-    }
-
-    .welcome {
-      background: rgba(255,255,255,0.9);
-      padding: 20px 25px;
-      border-radius: 15px;
-      max-width: 600px;
-      text-align: center;
-      box-shadow: 0 3px 10px rgba(0,0,0,0.15);
-      margin-bottom: 25px;
-      animation: fadeIn 0.8s ease-in-out;
-    }
-    .welcome h2 {
-      margin: 0 0 10px 0;
-      color: #800000;
-    }
-    .welcome p {
-      margin: 0;
-      color: #444;
-      line-height: 1.6;
-    }
-
-    .suggestions {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
-      width: 100%;
-      max-width: 800px;
-      margin-bottom: 25px;
-    }
-    .suggestions button {
-      background: #fff;
-      border: 2px solid #800000;
-      border-radius: 18px;
-      padding: 15px 20px;
-      font-size: 15px;
-      font-weight: bold;
-      cursor: pointer;
-      transition: 0.3s;
-      box-shadow: 0 3px 10px rgba(0,0,0,0.08);
-      text-align: center;
-    }
-    .suggestions button:hover {
-      background: #800000;
-      color: #fff;
-      transform: scale(1.05);
-    }
-
-    .chat {
-      width: 100%;
-      max-width: 700px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-    .msg {
-      padding: 12px 18px;
-      border-radius: 18px;
-      max-width: 70%;
-      word-wrap: break-word;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-      animation: fadeIn 0.3s ease-in;
-    }
-    .user {
-      background: #800000;
-      color: #fff;
-      align-self: flex-end;
-      border-bottom-right-radius: 5px;
-    }
-    .bot {
-      background: rgba(255,255,255,0.9);
-      color: #333;
-      align-self: flex-start;
-      border-bottom-left-radius: 5px;
-    }
-
-    @keyframes fadeIn {
-      from {opacity:0; transform:translateY(10px);}
-      to {opacity:1; transform:translateY(0);}
-    }
-
-    .typing {
-      display: flex;
-      gap: 5px;
-      align-items: center;
-      padding: 10px;
-      background: rgba(255,255,255,0.9);
-      border-radius: 15px;
-      width: fit-content;
-      margin-left: 10px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    }
-    .typing span {
-      width: 6px;
-      height: 6px;
-      background: #888;
-      border-radius: 50%;
-      animation: blink 1.4s infinite both;
-    }
-    .typing span:nth-child(2) { animation-delay: 0.2s; }
-    .typing span:nth-child(3) { animation-delay: 0.4s; }
-
-    @keyframes blink {
-      0%, 80%, 100% { opacity: 0; }
-      40% { opacity: 1; }
-    }
-
-    /* ✅ البوكس الأساسي */
-    .chat-box {
-      display: flex;
-      gap: 10px;
-      padding: 10px 15px;
-      background: rgba(255, 255, 255, 0.8);
-      backdrop-filter: blur(6px);
-      border-radius: 20px;
-      margin: 15px auto;
-      width: 60%;  
-      box-shadow: 0 4px 15px rgba(0,0,0,0.15);
-    }
-    .chat-box input {
-      flex: 1;
-      border: 1px solid #bbb;
-      border-radius: 25px;
-      padding: 8px 14px;
-      font-size: 14px;
-      outline: none;
-      transition: 0.3s;
-    }
-    .chat-box input:focus {
-      border-color: #800000;
-      box-shadow: 0 0 6px rgba(128,0,0,0.4);
-    }
-    .chat-box button {
-      background: linear-gradient(90deg, #600000, #800000);
-      border: none;
-      color: #fff;
-      border-radius: 25px;
-      padding: 8px 18px;
-      font-size: 14px;
-      font-weight: bold;
-      cursor: pointer;
-      transition: 0.3s;
-      box-shadow: 0 3px 10px rgba(0,0,0,0.2);
-    }
-    .chat-box button:hover {
-      background: linear-gradient(90deg, #800000, #a00000);
-      transform: scale(1.05);
-    }
-
-    /* ✅ تعديلات خاصة بالموبايل */
-    @media (max-width: 768px) {
-      header h1 { font-size: 16px; }
-      .welcome { padding: 15px 18px; font-size: 14px; }
-      .suggestions { grid-template-columns: repeat(2, 1fr); gap: 12px; }
-      .suggestions button { padding: 12px; font-size: 13px; }
-      .chat-box { width: 90%; }   /* ✅ يخلي البوكس أصغر */
-      .chat-box input { font-size: 13px; padding: 6px 10px; }
-      .chat-box button { font-size: 13px; padding: 6px 14px; }
-    }
-
-    @media (max-width: 480px) {
-      .suggestions { grid-template-columns: 1fr; } /* ✅ زرار واحد في الصف */
-      .chat-box { width: 95%; }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="author" content="Sawaed Shabab Masr">
+    <meta name="description" content="Official website for Sawaed Shabab Masr Initiative">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     
+    <title>سواعد شباب مصر</title>
+    <link rel="stylesheet" href="elkyan.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Montserrat:wght@600&display=swap" rel="stylesheet">
 </head>
 <body>
-  <header>
-    <h1> كيان سواعد شباب مصر</h1>
-    <img src="WhatsApp Image 2025-09-06 at 00.14.35.png" alt="logo" width="50">
-  </header>
+    <div class="overlay"></div>
 
-  <div class="container">
-    <div class="welcome">
-      <h2>مرحبًا بك في كيان سواعد شباب مصر </h2>
-      <p>
-        نحن هنا لندعمك، نلهمك، ونساعدك في بناء مستقبل أفضل.  
-        اختر أحد الأسئلة المقترحة أو اكتب سؤالك، وستحصل على إجابات تلهمك وتوجهك نحو النجاح.
-      </p>
-    </div>
+    <!-- Header -->
+    <header class="header">
+        <div class="logo">سواعد شباب مصر</div>
+        <nav>
+            <ul>
+                <li><a href="#">الرئيسية</a></li>
+                <li><a href="#">عن الكيان</a></li>
+                <li><a href="#">الأنشطة</a></li>
+                <li><a href="#">الأحداث</a></li>
+                <li><a href="#">تواصل معنا</a></li>
+            </ul>
+        </nav>
+    </header>
 
-    <div class="suggestions" id="suggestions">
-      <button onclick="quickAsk('رؤية الاتحاد ورسالتة واهدافه')">ما هي أهداف كيان سواعد شباب مصر؟</button>
-      <button onclick="quickAsk('المشاريع والمبادرات الكبيرة')">ما أبرز الأنشطة والمبادرات</button>
-      <button onclick="quickAsk('الهيكل الإداري التنظيمي المركزي')">كيفية الانضمام والمشاركة</button>
-      <button onclick="quickAsk('وصف تفصيلي لأي لجنة مركزية')">أهم الإنجازات حتى الآن</button>
-      <button onclick="quickAsk('مجلس المنسقين')">الخطط المستقبلية للكيان</button>
-      <button onclick="quickAsk('الفئات التي يستهدفها في شغله')">ما هي رؤية كيان سواعد شباب مصر</button>
-    </div>
+    <!-- Welcome Section -->
+    <section class="welcome">
+        <h1 class="fade-in">أهلاً بكم في كيان<br> <span>سواعد شباب مصر</span></h1>
+        <p class="slide-up">معاً نحو مستقبل أفضل للشباب المصري، تاريخ، ثقافة، وإنجازات.</p>
+        <a href="#" class="btn">اكتشف المزيد</a>
+    </section>
 
-    <div class="chat" id="chat"></div>
-  </div>
+    <!-- Footer -->
+    <footer>
+        <p>Members: Shams, Nour, Mohamed Wael, Mustfa, Marwa</p>
+        <div class="social">
+            <a target="_blank" href="https://www.facebook.com/profile.php?id=61556573002582">
+                <img src="pictures/facebookicon 2.png" alt="Facebook">
+            </a>
+        </div>
+    </footer>
 
-  <!-- ✅ البوكس بعد التعديل -->
-  <div class="chat-box">
-    <input type="text" id="input" placeholder="اكتب سؤالك هنا..." />
-    <button onclick="manualSend()">إرسال</button>
-  </div>
-
-  <audio id="sendSound" src="https://www.myinstants.com/media/sounds/telegram-desktop-sent-message.mp3"></audio>
-  <audio id="replySound" src="https://www.myinstants.com/media/sounds/telegram-desktop-notification.mp3"></audio>
-
-  <script>
-    const chat = document.getElementById("chat");
-    const sendSound = document.getElementById("sendSound");
-    const replySound = document.getElementById("replySound");
-    const suggestions = document.getElementById("suggestions");
-
-    function addMessage(text, sender) {
-      const msg = document.createElement("div");
-      msg.className = `msg ${sender}`;
-      msg.innerText = text;
-      chat.appendChild(msg);
-      chat.scrollTop = chat.scrollHeight;
-    }
-
-    function showTyping() {
-      const typing = document.createElement("div");
-      typing.className = "typing";
-      typing.id = "typing";
-      typing.innerHTML = "<span></span><span></span><span></span>";
-      chat.appendChild(typing);
-      chat.scrollTop = chat.scrollHeight;
-    }
-
-    function removeTyping() {
-      const typing = document.getElementById("typing");
-      if (typing) typing.remove();
-    }
-
-    async function sendMessage(message) {
-      addMessage(message, "user");
-      sendSound.play();
-      suggestions.style.display = "none";
-
-      showTyping();
-
-      try {
-        const res = await fetch("http://localhost:5000/chat", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ message }),
-        });
-        const data = await res.json();
-
-        removeTyping();
-        addMessage(data.reply || "⚠️ خطأ في الرد", "bot");
-        replySound.play();
-      } catch (err) {
-        removeTyping();
-        addMessage("⚠️ حصل خطأ أثناء الاتصال بالذكاء الاصطناعي.", "bot");
-      }
-    }
-
-    function manualSend() {
-      const input = document.getElementById("input");
-      const msg = input.value.trim();
-      if (msg) {
-        input.value = "";
-        sendMessage(msg);
-      }
-    }
-
-    function quickAsk(msg) {
-      sendMessage(msg);
-    }
-
-    document.getElementById("input").addEventListener("keypress", function (e) {
-      if (e.key === "Enter") {
-        manualSend();
-      }
-    });
-  </script>
+    <script src="jyan.js"></script>
 </body>
 </html>
-
