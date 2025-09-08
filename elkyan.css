@@ -6,7 +6,8 @@
     font-family: 'Cairo', sans-serif;
 }
 body {
-    background: url("-1_orig.jpeg") no-repeat center center/cover;
+    background: url("-1_orig.jpeg") no-repeat center center fixed;
+    background-size: cover;
     color: white;
     min-height: 100vh;
     overflow-x: hidden;
@@ -27,7 +28,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 15px 50px;
+    padding: 15px 20px;
     background: rgba(200,0,0,0.9);
     position: fixed;
     width: 100%;
@@ -39,43 +40,22 @@ body {
     align-items: center;
     gap: 10px;
     color: white;
-    font-size: 24px;
+    font-size: 22px;
     font-weight: bold;
 }
 .logo img {
-    height: 40px;
-}
-nav ul {
-    list-style: none;
-    display: flex;
-    gap: 25px;
-}
-nav ul li a {
-    color: white;
-    text-decoration: none;
-    font-size: 18px;
-    transition: 0.3s;
-}
-nav ul li a:hover {
-    color: yellow;
-    border-bottom: 2px solid yellow;
+    height: 35px;
 }
 
-/* زرار الموبايل */
+/* زرار القائمة */
 .menu-btn {
-    display: none;
-    flex-direction: column;
-    gap: 5px;
+    font-size: 26px;
+    color: white;
     cursor: pointer;
-}
-.menu-btn span {
-    width: 25px;
-    height: 3px;
-    background: white;
-    border-radius: 2px;
+    display: block;
 }
 
-/* القائمة الجانبية للموبايل */
+/* القائمة الجانبية */
 .side-menu {
     position: fixed;
     top: 0;
@@ -110,7 +90,7 @@ nav ul li a:hover {
     margin-top: 120px;
 }
 .welcome h1 {
-    font-size: 60px;
+    font-size: 50px;
     margin-bottom: 20px;
     animation: fadeIn 2s ease;
 }
@@ -118,7 +98,7 @@ nav ul li a:hover {
     color: #ffcc00;
 }
 .welcome p {
-    font-size: 22px;
+    font-size: 20px;
     margin-bottom: 30px;
     animation: slideUp 2.5s ease;
 }
@@ -136,7 +116,7 @@ nav ul li a:hover {
     color: black;
 }
 
-/* General Section */
+/* Sections */
 .section {
     text-align: center;
     padding: 80px 20px;
@@ -148,12 +128,12 @@ nav ul li a:hover {
     margin-right: auto;
 }
 .section h2 {
-    font-size: 32px;
+    font-size: 28px;
     margin-bottom: 20px;
     color: #ffcc00;
 }
 .section p {
-    font-size: 20px;
+    font-size: 18px;
     margin-bottom: 10px;
 }
 
@@ -165,7 +145,7 @@ nav ul li a:hover {
     flex-wrap: wrap;
 }
 .gallery-grid img {
-    width: 300px;
+    width: 280px;
     border-radius: 12px;
     transition: transform 0.3s;
 }
@@ -176,7 +156,7 @@ nav ul li a:hover {
 /* Support */
 .support img {
     margin-top: 20px;
-    height: 80px;
+    height: 70px;
 }
 
 /* Footer */
@@ -187,7 +167,7 @@ footer {
     background: rgba(0,0,0,0.5);
 }
 .social img {
-    width: 30px;
+    width: 28px;
     margin-top: 10px;
     transition: 0.3s;
 }
@@ -205,17 +185,11 @@ footer {
     to {transform: translateY(0); opacity: 1;}
 }
 
-/* ✅ Fix background + navbar for mobile */
+/* ✅ Fix background on mobile */
 @media (max-width: 768px) {
     body {
         background-attachment: scroll;
         background-size: cover;
         background-position: center;
-    }
-    nav ul {
-        display: none;
-    }
-    .menu-btn {
-        display: flex;
     }
 }
