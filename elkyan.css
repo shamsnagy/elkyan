@@ -1,4 +1,4 @@
-/* Reset */
+/* Reset *//* Reset */
 * {
     margin: 0;
     padding: 0;
@@ -161,3 +161,14 @@ footer {
     from {transform: translateY(40px); opacity: 0;}
     to {transform: translateY(0); opacity: 1;}
 }
+
+/* ✅ Fix background on mobile */
+@media (max-width: 768px) {
+    body {
+        background-attachment: scroll;
+        background-size: cover;
+        background-position: center;
+    }
+}
+
+
