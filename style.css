@@ -1,0 +1,98 @@
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Cairo', sans-serif;
+}
+body {
+  background: url("-1_orig.jpeg") no-repeat center center/cover;
+  color: white;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; /* ❌ عشان ميبقاش فيه سكرول */
+}
+
+/* Overlay */
+.overlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.6);
+  z-index: -1;
+}
+
+/* Header */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 50px;
+  background: rgba(200,0,0,0.9);
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 1000;
+}
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: white;
+  font-size: 24px;
+  font-weight: bold;
+}
+.logo img { height: 40px; }
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 25px;
+}
+nav ul li a {
+  color: white;
+  text-decoration: none;
+  font-size: 18px;
+  transition: 0.3s;
+}
+nav ul li a:hover, nav ul li .active {
+  color: yellow;
+  border-bottom: 2px solid yellow;
+}
+
+/* Main content */
+.content {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center; /* الكارد في النص بالظبط */
+  padding-top: 100px;
+}
+
+/* Card */
+.card {
+  width: 100%;
+  max-width: 900px;
+  background: rgba(0,0,0,0.55);
+  border-radius: 20px;
+  padding: 40px 25px;
+  text-align: center;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.5);
+}
+.card h2 {
+  font-size: 32px;
+  margin-bottom: 20px;
+  color: #ffcc00;
+}
+.card p {
+  font-size: 20px;
+  margin-bottom: 30px;
+  color: #eee;
+}
+
+/* Footer inside card */
+.card footer {
+  margin-top: 20px;
+  font-size: 14px;
+  color: #bbb;
+}

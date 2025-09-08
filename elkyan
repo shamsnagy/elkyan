@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="author" content="Sawaed Shabab Masr">
+    <meta name="description" content="Official website for Sawaed Shabab Masr Initiative">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     
+    <title>سواعد شباب مصر</title>
+    <link rel="stylesheet" href="elkyan.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Montserrat:wght@600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="overlay"></div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="logo">سواعد شباب مصر</div>
+        <nav>
+            <ul>
+                <li><a href="#">الرئيسية</a></li>
+                <li><a href="#">عن الكيان</a></li>
+                <li><a href="#">الأنشطة</a></li>
+                <li><a href="#">الأحداث</a></li>
+                <li><a href="#">تواصل معنا</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Welcome Section -->
+    <section class="welcome">
+        <h1 class="fade-in">أهلاً بكم في كيان<br> <span>سواعد شباب مصر</span></h1>
+        <p class="slide-up">معاً نحو مستقبل أفضل للشباب المصري، تاريخ، ثقافة، وإنجازات.</p>
+        <a href="#" class="btn">اكتشف المزيد</a>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>Members: Shams, Nour, Mohamed Wael, Mustfa, Marwa</p>
+        <div class="social">
+            <a target="_blank" href="https://www.facebook.com/profile.php?id=61556573002582">
+                <img src="pictures/facebookicon 2.png" alt="Facebook">
+            </a>
+        </div>
+    </footer>
+
+    <script src="jyan.js"></script>
+</body>
+</html>
