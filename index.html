@@ -1,4 +1,4 @@
-<!DOCTYPE html><!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
@@ -24,11 +24,27 @@
                 <li><a href="kyan.html">الرئيسية</a></li>
                 <li><a href="about.html">عن الكيان</a></li>
                 <li><a href="gallery.html">الأنشطة</a></li>
-                <li><a href="ai.html">ai </a></li>
+                <li><a href="ai.html">AI</a></li>
                 <li><a href="contact.html">تواصل معنا</a></li>
             </ul>
         </nav>
+
+        <!-- زرار الموبايل -->
+        <div class="menu-btn" onclick="toggleMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
     </header>
+
+    <!-- Mobile Side Menu -->
+    <div class="side-menu" id="sideMenu">
+        <a href="kyan.html">الرئيسية</a>
+        <a href="about.html">عن الكيان</a>
+        <a href="gallery.html">الأنشطة</a>
+        <a href="ai.html">AI</a>
+        <a href="contact.html">تواصل معنا</a>
+    </div>
 
     <!-- Welcome Section -->
     <section class="welcome" id="welcome">
@@ -58,7 +74,7 @@
     <section class="section support" id="support">
         <h2>برعاية</h2>
         <p>وزارة الشباب والرياضة</p>
-        <img src="عععععع.png" alt="Ministry of Youth and Sports">
+        <img src="c:\Users\Mega Store\Downloads\عععععع.png" alt="Ministry of Youth and Sports">
     </section>
 
     <!-- Footer -->
@@ -67,15 +83,14 @@
             <a target="_blank" href="https://www.facebook.com/profile.php?id=61552694205226">
                 <img src="facebookicon 2.png" alt="Facebook">
             </a>
-            <p>
-                سواعد شباب مصر 2025
-            </p>
+            <p>سواعد شباب مصر 2025</p>
         </div>
     </footer>
 
-    <script src="jyan.js"></script>
+    <script>
+        function toggleMenu() {
+            document.getElementById("sideMenu").classList.toggle("active");
+        }
+    </script>
 </body>
 </html>
-
-
-
