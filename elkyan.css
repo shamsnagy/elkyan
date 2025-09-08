@@ -1,4 +1,4 @@
-/* Reset *//* Reset */
+/* Reset */
 * {
     margin: 0;
     padding: 0;
@@ -59,6 +59,49 @@ nav ul li a {
 nav ul li a:hover {
     color: yellow;
     border-bottom: 2px solid yellow;
+}
+
+/* زرار الموبايل */
+.menu-btn {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+}
+.menu-btn span {
+    width: 25px;
+    height: 3px;
+    background: white;
+    border-radius: 2px;
+}
+
+/* القائمة الجانبية للموبايل */
+.side-menu {
+    position: fixed;
+    top: 0;
+    right: -250px;
+    width: 250px;
+    height: 100%;
+    background: rgba(0,0,0,0.95);
+    padding: 60px 20px;
+    transition: 0.4s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    z-index: 2000;
+}
+.side-menu a {
+    color: white;
+    text-decoration: none;
+    font-size: 20px;
+    padding: 10px;
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+}
+.side-menu a:hover {
+    color: yellow;
+}
+.side-menu.active {
+    right: 0;
 }
 
 /* Welcome Section */
@@ -162,13 +205,17 @@ footer {
     to {transform: translateY(0); opacity: 1;}
 }
 
-/* ✅ Fix background on mobile */
+/* ✅ Fix background + navbar for mobile */
 @media (max-width: 768px) {
     body {
         background-attachment: scroll;
         background-size: cover;
         background-position: center;
     }
+    nav ul {
+        display: none;
+    }
+    .menu-btn {
+        display: flex;
+    }
 }
-
-
