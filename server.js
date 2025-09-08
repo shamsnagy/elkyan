@@ -1,3 +1,4 @@
+const express = require("express");// server.js
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
@@ -12,23 +13,44 @@ const port = 5000;
 app.use(cors());
 app.use(bodyParser.json());
 
-// 🔑 هنا حط API KEY بتاعك
-const genAI = new GoogleGenerativeAI("AIzaSyBWvaTqzzA73blKI5oU-CA-i6DLorbZCt8");
+// ✅ API Key
+if (!process.env.API_KEY) {
+  console.error("❌ مفيش API_KEY في .env");
+}
 
+const genAI = new GoogleGenerativeAI(process.env.API_KEY || "AIzaSyBWvaTqzzA73blKI5oU-CA-i6DLorbZCt8");
+
+// 📌 Endpoint بالـ streaming
 app.post("/chat", async (req, res) => {
   try {
     const { message } = req.body;
+    if (!message) {
+      return res.status(400).json({ error: "Message is required" });
+    }
 
     const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-    const result = await model.generateContent(message);
+    const stream = await model.generateContentStream(message);
 
-    res.json({ reply: result.response.text() });
+    res.setHeader("Content-Type", "application/json; charset=utf-8");
+    res.setHeader("Transfer-Encoding", "chunked");
+
+    let fullResponse = "";
+
+    for await (const chunk of stream.stream) {
+      const chunkText = chunk.text();
+      fullResponse += chunkText;
+      res.write(JSON.stringify({ partial: chunkText }) + "\n");
+    }
+
+    res.end(JSON.stringify({ reply: fullResponse }));
   } catch (error) {
-    console.error("Error:", error);
-    res.status(500).json({ error: "Something went wrong" });
+    console.error("❌ Error:", error);
+    res.status(500).json({ error: "Something went wrong with AI service" });
   }
 });
 
 app.listen(port, () => {
   console.log(`✅ Server running at http://localhost:${port}`);
 });
+
+
