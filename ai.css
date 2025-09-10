@@ -22,30 +22,63 @@ body {
   z-index: -1;
 }
 
-/* Tabs Bar */
-.tabs-bar {
+/* Header */
+.header {
   display: flex;
-  justify-content: center;
-  gap: 25px;
-  background: rgba(0,0,0,0.9);
-  padding: 15px;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 50px;
+  background: rgba(200,0,0,0.9);
   position: fixed;
   width: 100%;
   top: 0;
   z-index: 1000;
 }
-.tabs-bar a {
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
   color: white;
-  text-decoration: none;
-  font-size: 18px;
-  padding: 8px 16px;
-  border-radius: 15px;
-  border: 2px solid #800000;
-  transition: 0.3s;
+  font-size: 24px;
+  font-weight: bold;
 }
-.tabs-bar a:hover, .tabs-bar a.active {
-  background: #800000;
-  color: yellow;
+.logo img { height: 40px; }
+
+/* زرار القائمة */
+.menu-btn {
+    font-size: 26px;
+    color: white;
+    cursor: pointer;
+    display: block;
+}
+
+/* القائمة الجانبية */
+.side-menu {
+    position: fixed;
+    top: 0;
+    right: -250px;
+    width: 250px;
+    height: 100%;
+    background: rgba(0,0,0,0.95);
+    padding: 60px 20px;
+    transition: 0.4s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    z-index: 2000;
+}
+.side-menu a {
+    color: white;
+    text-decoration: none;
+    font-size: 20px;
+    padding: 10px;
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+}
+.side-menu a:hover {
+    color: yellow;
+}
+.side-menu.active {
+    right: 0;
 }
 
 /* Main content */
@@ -54,7 +87,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  padding: 140px 20px 40px;
+  padding: 160px 20px 40px;
 }
 
 /* AI Card */
@@ -198,4 +231,19 @@ footer {
   text-align: center;
   padding: 20px;
   background: rgba(0,0,0,0.5);
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+
+/* ✅ Fix background on mobile */
+@media (max-width: 768px) {
+    body {
+        background-attachment: scroll;
+        background-size: cover;
+        background-position: center;
+    }
 }
