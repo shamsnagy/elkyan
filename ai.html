@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI - سواعد شباب مصر</title>
+  <link rel="stylesheet" href="ai.css">
+</head>
+<body>
+
+  <!-- ✅ التابات -->
+  <div class="tabs-bar">
+    <a href="kyan.html">الرئيسية</a>
+    <a href="about.html">عن الكيان</a>
+    <a href="gallery.html">الأنشطة</a>
+    <a href="ai.html" class="active">AI</a>
+    <a href="contact.html">تواصل معنا</a>
+  </div>
+
+  <!-- ✅ Overlay -->
+  <div class="overlay"></div>
+
+  <!-- ✅ الكارد الكبير -->
+  <main class="content">
+    <section class="ai-card">
+      
+      <!-- Welcome -->
+      <div class="welcome">
+        <h2>مرحبًا بك في <span>كيان سواعد شباب مصر</span></h2>
+        <p>
+          نحن هنا لندعمك، نلهمك، ونساعدك في بناء مستقبل أفضل.  
+          اختر أحد الأسئلة المقترحة أو اكتب سؤالك، وستحصل على إجابات تلهمك وتوجهك نحو النجاح.
+        </p>
+      </div>
+
+      <!-- Suggestions -->
+      <div class="suggestions" id="suggestions">
+        <button onclick="quickAsk('🎯 أهداف الكيان')">🎯 أهداف الكيان</button>
+        <button onclick="quickAsk('📌 أنشطتنا')">📌 أنشطتنا</button>
+        <button onclick="quickAsk('🏆 إنجازاتنا')">🏆 إنجازاتنا</button>
+        <button onclick="quickAsk('🤝 كيفية الانضمام')">🤝 كيفية الانضمام</button>
+        <button onclick="quickAsk('🌐 الرؤية والرسالة')">🌐 الرؤية والرسالة</button>
+        <button onclick="quickAsk('🚀 المستقبل')">🚀 المستقبل</button>
+      </div>
+
+      <!-- Chat -->
+      <div class="chat" id="chat"></div>
+
+      <!-- Input -->
+      <div class="chat-box">
+        <input type="text" id="input" placeholder="اكتب سؤالك هنا..." />
+        <button onclick="manualSend()">إرسال</button>
+      </div>
+
+    </section>
+  </main>
+
+  <!-- ✅ الفوتر -->
+  <footer>
+    © 2025 سواعد شباب مصر - جميع الحقوق محفوظة
+  </footer>
+
+  <!-- ✅ Script -->
+  <script>
+    const chat = document.getElementById("chat");
+    const suggestions = document.getElementById("suggestions");
+
+    function addMessage(text, sender) {
+      const msg = document.createElement("div");
+      msg.className = `msg ${sender}`;
+      msg.innerText = text;
+      chat.appendChild(msg);
+      chat.scrollTop = chat.scrollHeight;
+    }
+
+    function showTyping() {
+      const typing = document.createElement("div");
+      typing.className = "typing";
+      typing.id = "typing";
+      typing.innerHTML = "<span></span><span></span><span></span>";
+      chat.appendChild(typing);
+    }
+
+    function removeTyping() {
+      const typing = document.getElementById("typing");
+      if (typing) typing.remove();
+    }
+
+    async function sendMessage(message) {
+      addMessage(message, "user");
+      suggestions.style.display = "none";
+      showTyping();
+
+      try {
+        const res = await fetch("http://localhost:5000/chat", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ message }),
+        });
+
+        removeTyping();
+
+        const reader = res.body.getReader();
+        const decoder = new TextDecoder();
+        let botMsg = document.createElement("div");
+        botMsg.className = "msg bot";
+        botMsg.innerText = "";
+        chat.appendChild(botMsg);
+
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          const chunk = decoder.decode(value, { stream: true });
+
+          chunk.split("\n").forEach(line => {
+            if (line.trim()) {
+              try {
+                const json = JSON.parse(line);
+                if (json.partial) {
+                  botMsg.innerText += json.partial;
+                }
+                if (json.reply) {
+                  botMsg.innerText = json.reply;
+                }
+              } catch (e) {
+                console.error("Parse error:", e);
+              }
+            }
+          });
+
+          chat.scrollTop = chat.scrollHeight;
+        }
+      } catch (err) {
+        removeTyping();
+        addMessage("⚠️ حصل خطأ أثناء الاتصال بالذكاء الاصطناعي.", "bot");
+        console.error(err);
+      }
+    }
+
+    function manualSend() {
+      const input = document.getElementById("input");
+      const msg = input.value.trim();
+      if (msg) {
+        input.value = "";
+        sendMessage(msg);
+      }
+    }
+
+    function quickAsk(msg) {
+      sendMessage(msg);
+    }
+
+    document.getElementById("input").addEventListener("keypress", function (e) {
+      if (e.key === "Enter") {
+        manualSend();
+      }
+    });
+  </script>
+</body>
+</html>
