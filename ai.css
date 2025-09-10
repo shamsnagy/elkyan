@@ -22,41 +22,30 @@ body {
   z-index: -1;
 }
 
-/* Header */
-.header {
+/* Tabs Bar */
+.tabs-bar {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 15px 50px;
-  background: rgba(200,0,0,0.9);
+  justify-content: center;
+  gap: 25px;
+  background: rgba(0,0,0,0.9);
+  padding: 15px;
   position: fixed;
   width: 100%;
   top: 0;
   z-index: 1000;
 }
-.logo {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  color: white;
-  font-size: 24px;
-  font-weight: bold;
-}
-.logo img { height: 40px; }
-nav ul {
-  list-style: none;
-  display: flex;
-  gap: 25px;
-}
-nav ul li a {
+.tabs-bar a {
   color: white;
   text-decoration: none;
   font-size: 18px;
+  padding: 8px 16px;
+  border-radius: 15px;
+  border: 2px solid #800000;
   transition: 0.3s;
 }
-nav ul li a:hover, nav ul li .active {
+.tabs-bar a:hover, .tabs-bar a.active {
+  background: #800000;
   color: yellow;
-  border-bottom: 2px solid yellow;
 }
 
 /* Main content */
@@ -65,7 +54,7 @@ nav ul li a:hover, nav ul li .active {
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  padding: 160px 20px 40px;
+  padding: 140px 20px 40px;
 }
 
 /* AI Card */
