@@ -5,20 +5,32 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AI - سواعد شباب مصر</title>
   <link rel="stylesheet" href="ai.css">
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
-  <!-- ✅ التابات -->
-  <div class="tabs-bar">
+  <!-- ✅ Overlay -->
+  <div class="overlay"></div>
+
+  <!-- ✅ الهيدر -->
+  <header class="header">
+    <div class="logo">
+      <img src="WhatsApp Image 2025-09-06 at 00.14.35.png" alt="logo">
+      سواعد شباب مصر
+    </div>
+
+    <!-- زرار القائمة -->
+    <div class="menu-btn" onclick="toggleMenu()">☰</div>
+  </header>
+
+  <!-- Mobile Side Menu -->
+  <div class="side-menu" id="sideMenu">
     <a href="kyan.html">الرئيسية</a>
     <a href="about.html">عن الكيان</a>
     <a href="gallery.html">الأنشطة</a>
-    <a href="ai.html" class="active">AI</a>
+    <a href="ai.html">AI</a>
     <a href="contact.html">تواصل معنا</a>
   </div>
-
-  <!-- ✅ Overlay -->
-  <div class="overlay"></div>
 
   <!-- ✅ الكارد الكبير -->
   <main class="content">
@@ -55,6 +67,9 @@
     </section>
   </main>
 
+  <!-- ✅ زر عائم -->
+  <a href="kyan.html" class="floating-btn">⬅ رجوع للرئيسية</a>
+
   <!-- ✅ الفوتر -->
   <footer>
     © 2025 سواعد شباب مصر - جميع الحقوق محفوظة
@@ -62,6 +77,10 @@
 
   <!-- ✅ Script -->
   <script>
+    function toggleMenu() {
+        document.getElementById("sideMenu").classList.toggle("active");
+    }
+
     const chat = document.getElementById("chat");
     const suggestions = document.getElementById("suggestions");
 
