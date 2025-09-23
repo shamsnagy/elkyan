@@ -1,88 +1,1037 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="author" content="Sawaed Shabab Masr">
-    <meta name="description" content="Official website for Sawaed Shabab Masr Initiative">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Organization Management System</title>
+    <style>
+        /* CSS Variables for consistent theming */
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #64748b;
+            --accent: #f1f5f9;
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --light: #f8fafc;
+            --dark: #1e293b;
+            --border: #e2e8f0;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --radius: 8px;
+        }
 
-    <title>سواعد شباب مصر</title>
-    <link rel="stylesheet" href="elkyan.css">
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+        /* Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f9fafb;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        /* Header & Navigation */
+        header {
+            background-color: white;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 1.5rem;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--secondary);
+            font-weight: 500;
+            padding: 0.5rem;
+            border-radius: var(--radius);
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: var(--primary);
+            background-color: var(--accent);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--dark);
+        }
+
+        /* Main Content */
+        main {
+            padding: 2rem 0;
+            min-height: calc(100vh - 180px);
+        }
+
+        .page {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Dashboard */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 1.5rem;
+        }
+
+        .stat-card {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: var(--secondary);
+            font-size: 0.9rem;
+        }
+
+        .recent-activities {
+            margin-top: 2rem;
+        }
+
+        .activity-item {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+
+        .activity-icon {
+            background-color: var(--accent);
+            color: var(--primary);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            flex-shrink: 0;
+        }
+
+        /* Forms */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: var(--radius);
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .btn-danger {
+            background-color: var(--danger);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background-color: #dc2626;
+        }
+
+        .btn-secondary {
+            background-color: var(--secondary);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background-color: #475569;
+        }
+
+        /* Tables and Lists */
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .search-box {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .search-input {
+            padding: 0.5rem;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+        }
+
+        .filter-select {
+            padding: 0.5rem;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            background-color: white;
+        }
+
+        .members-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .member-card {
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 1.5rem;
+            position: relative;
+        }
+
+        .member-name {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .member-detail {
+            margin-bottom: 0.5rem;
+            display: flex;
+        }
+
+        .detail-label {
+            font-weight: 500;
+            min-width: 80px;
+            color: var(--secondary);
+        }
+
+        .member-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .btn-sm {
+            padding: 0.4rem 0.8rem;
+            font-size: 0.875rem;
+        }
+
+        /* Committees */
+        .committees-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .committee-card {
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 1.5rem;
+        }
+
+        .committee-name {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .committee-description {
+            margin-bottom: 1.5rem;
+            color: var(--secondary);
+        }
+
+        .committee-leadership {
+            border-top: 1px solid var(--border);
+            padding-top: 1rem;
+        }
+
+        .leader-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+
+        .leader-role {
+            font-weight: 500;
+            color: var(--secondary);
+        }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 1rem;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal {
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            width: 100%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateY(-20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .modal-header {
+            padding: 1.5rem 1.5rem 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--secondary);
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+        }
+
+        .modal-footer {
+            padding: 0 1.5rem 1.5rem;
+            display: flex;
+            justify-content: flex-end;
+            gap: 0.5rem;
+        }
+
+        /* Footer */
+        footer {
+            background-color: white;
+            border-top: 1px solid var(--border);
+            padding: 1.5rem 0;
+            text-align: center;
+            color: var(--secondary);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-menu {
+                position: fixed;
+                top: 70px;
+                left: 0;
+                right: 0;
+                background: white;
+                flex-direction: column;
+                padding: 1rem;
+                box-shadow: var(--shadow);
+                transform: translateY(-100%);
+                opacity: 0;
+                transition: all 0.3s ease;
+                pointer-events: none;
+            }
+
+            .nav-menu.open {
+                transform: translateY(0);
+                opacity: 1;
+                pointer-events: all;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .section-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .search-box {
+                width: 100%;
+            }
+
+            .search-input, .filter-select {
+                flex: 1;
+            }
+        }
+
+        /* Utility Classes */
+        .hidden {
+            display: none !important;
+        }
+
+        .mt-1 { margin-top: 0.5rem; }
+        .mt-2 { margin-top: 1rem; }
+        .mt-3 { margin-top: 1.5rem; }
+        .mb-1 { margin-bottom: 0.5rem; }
+        .mb-2 { margin-bottom: 1rem; }
+        .mb-3 { margin-bottom: 1.5rem; }
+    </style>
 </head>
 <body>
-    <div class="overlay"></div>
-
-    <!-- Header -->
-    <header class="header">
-        <div class="logo">
-            <img src="WhatsApp Image 2025-09-06 at 00.14.35.png" alt="Logo">
-            <span>سواعد شباب مصر</span>
-        </div>
-
-        <!-- زرار القائمة -->
-        <div class="menu-btn" onclick="toggleMenu()">
-            ☰
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">سواعد شباب مصر</div>
+                <button class="mobile-menu-btn">☰</button>
+                <ul class="nav-menu">
+                    <li><a href="#" class="nav-link active" data-page="dashboard">Dashboard</a></li>
+                    <li><a href="#" class="nav-link" data-page="members">Members</a></li>
+                    <li><a href="#" class="nav-link" data-page="committees">Committees</a></li>
+                </ul>
+            </div>
         </div>
     </header>
 
-    <!-- Mobile Side Menu -->
-    <div class="side-menu" id="sideMenu">
-        <a href="kyan.html">الرئيسية</a>
-        <a href="about.html">عن الكيان</a>
-        <a href="gallery.html">الأنشطة</a>
-        <a href="ai.html">AI</a>
-        <a href="contact.html">تواصل معنا</a>
+    <main>
+        <div class="container">
+            <!-- Dashboard Page -->
+            <div id="dashboard" class="page active">
+                <h1>President's Dashboard</h1>
+                <div class="dashboard-grid">
+                    <div class="card stat-card">
+                        <div class="stat-number" id="total-members">0</div>
+                        <div class="stat-label">Total Members</div>
+                    </div>
+                    <div class="card stat-card">
+                        <div class="stat-number" id="total-committees">0</div>
+                        <div class="stat-label">Active Committees</div>
+                    </div>
+                    <div class="card stat-card">
+                        <div class="stat-number" id="new-this-month">0</div>
+                        <div class="stat-label">New This Month</div>
+                    </div>
+                </div>
+
+                <div class="card recent-activities mt-3">
+                    <h2>Recent Activities</h2>
+                    <div id="activities-list">
+                        <div class="activity-item">
+                            <div class="activity-icon">+</div>
+                            <div>
+                                <div>New member added: John Doe</div>
+                                <small>2 hours ago</small>
+                            </div>
+                        </div>
+                        <div class="activity-item">
+                            <div class="activity-icon">↻</div>
+                            <div>
+                                <div>Member updated: Jane Smith</div>
+                                <small>5 hours ago</small>
+                            </div>
+                        </div>
+                        <div class="activity-item">
+                            <div class="activity-icon">⚙️</div>
+                            <div>
+                                <div>Finance committee details updated</div>
+                                <small>Yesterday</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Members Page -->
+            <div id="members" class="page">
+                <div class="section-header">
+                    <h1 class="section-title">Members</h1>
+                    <div class="search-box">
+                        <input type="text" class="search-input" id="member-search" placeholder="Search members...">
+                        <select class="filter-select" id="committee-filter">
+                            <option value="">All Committees</option>
+                        </select>
+                        <button class="btn btn-primary" id="add-member-btn">Add Member</button>
+                    </div>
+                </div>
+
+                <div class="members-grid" id="members-list">
+                    <!-- Members will be dynamically added here -->
+                </div>
+            </div>
+
+            <!-- Committees Page -->
+            <div id="committees" class="page">
+                <div class="section-header">
+                    <h1 class="section-title">Committees</h1>
+                    <div class="search-box">
+                        <input type="text" class="search-input" id="committee-search" placeholder="Search committees...">
+                    </div>
+                </div>
+
+                <div class="committees-grid" id="committees-list">
+                    <!-- Committees will be dynamically added here -->
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Add/Edit Member Modal -->
+    <div class="modal-overlay hidden" id="member-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title" id="modal-title">Add Member</h2>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="member-form">
+                    <input type="hidden" id="member-id">
+                    <div class="form-group">
+                        <label for="name" class="form-label">Full Name</label>
+                        <input type="text" id="name" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="role" class="form-label">Role</label>
+                        <input type="text" id="role" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" id="email" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone" class="form-label">Phone</label>
+                        <input type="tel" id="phone" class="form-input">
+                    </div>
+                    <div class="form-group">
+                        <label for="committee" class="form-label">Committee</label>
+                        <select id="committee" class="form-input" required>
+                            <option value="">Select a committee</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="cancel-btn">Cancel</button>
+                <button class="btn btn-primary" id="save-member-btn">Save</button>
+            </div>
+        </div>
     </div>
 
-    <!-- Welcome Section -->
-    <section class="welcome" id="welcome">
-        <h1 class="fade-in">أهلاً بكم في كيان<br> <span>سواعد شباب مصر</span></h1>
-        <p class="slide-up">معاً نحو مستقبل أفضل للشباب المصري، تاريخ، ثقافة، وإنجازات.</p>
-        <a href="#about" class="btn">اكتشف المزيد</a>
-    </section>
-
-    <!-- About Section -->
-    <section class="section" id="about">
-        <h2>عن الكيان</h2>
-        <p>رؤيتنا: تمكين الشباب المصري للنهوض بالمجتمع.</p>
-        <p>رسالتنا: توفير بيئة داعمة للابتكار والعمل التطوعي.</p>
-    </section>
-
-    <!-- Gallery Section -->
-    <section class="section gallery" id="gallery">
-        <h2>أنشطتنا</h2>
-        <div class="gallery-grid">
-            <img src="عععع.jfif" alt="Activity 1">
-            <img src="سسس.jfif" alt="Activity 2">
-            <img src="ززز.jfif" alt="Activity 3">
-        </div>
-    </section>
-
-    <!-- Support Section -->
-    <section class="section support" id="support">
-        <h2>برعاية</h2>
-        <p>وزارة الشباب والرياضة</p>
-        <img src="c:\Users\Mega Store\Downloads\عععععع.png" alt="Ministry of Youth and Sports">
-    </section>
-
-    <!-- Footer -->
-    <footer id="contact">
-        <div class="social">
-            <a target="_blank" href="https://www.facebook.com/profile.php?id=61552694205226">
-                <img src="facebookicon 2.png" alt="Facebook">
-            </a>
-            <p>سواعد شباب مصر 2025</p>
+    <footer>
+        <div class="container">
+            <p>&copy; 2023 Organization Management System. All rights reserved.</p>
         </div>
     </footer>
 
     <script>
-        function toggleMenu() {
-            document.getElementById("sideMenu").classList.toggle("active");
+        // Data storage
+        let members = JSON.parse(localStorage.getItem('members')) || [];
+        const committees = [
+            {
+                id: 1,
+                name: "Finance",
+                description: "Manages the organization's budget, expenses, and financial planning.",
+                leader: "Sarah Johnson",
+                deputy: "Michael Chen"
+            },
+            {
+                id: 2,
+                name: "Events",
+                description: "Plans and executes all organization events and activities.",
+                leader: "David Wilson",
+                deputy: "Emily Rodriguez"
+            },
+            {
+                id: 3,
+                name: "Outreach",
+                description: "Handles community engagement and partnership development.",
+                leader: "Jessica Brown",
+                deputy: "Robert Kim"
+            },
+            {
+                id: 4,
+                name: "Technology",
+                description: "Manages the organization's digital presence and technical infrastructure.",
+                leader: "Alex Turner",
+                deputy: "Maya Patel"
+            }
+        ];
+
+        // DOM Elements
+        const navLinks = document.querySelectorAll('.nav-link');
+        const pages = document.querySelectorAll('.page');
+        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        const navMenu = document.querySelector('.nav-menu');
+        
+        // Members page elements
+        const membersList = document.getElementById('members-list');
+        const addMemberBtn = document.getElementById('add-member-btn');
+        const memberSearch = document.getElementById('member-search');
+        const committeeFilter = document.getElementById('committee-filter');
+        
+        // Committees page elements
+        const committeesList = document.getElementById('committees-list');
+        const committeeSearch = document.getElementById('committee-search');
+        
+        // Modal elements
+        const memberModal = document.getElementById('member-modal');
+        const modalTitle = document.getElementById('modal-title');
+        const memberForm = document.getElementById('member-form');
+        const memberIdInput = document.getElementById('member-id');
+        const nameInput = document.getElementById('name');
+        const roleInput = document.getElementById('role');
+        const emailInput = document.getElementById('email');
+        const phoneInput = document.getElementById('phone');
+        const committeeSelect = document.getElementById('committee');
+        const saveMemberBtn = document.getElementById('save-member-btn');
+        const cancelBtn = document.getElementById('cancel-btn');
+        const modalCloseBtn = document.querySelector('.modal-close');
+        
+        // Dashboard elements
+        const totalMembersEl = document.getElementById('total-members');
+        const totalCommitteesEl = document.getElementById('total-committees');
+        const newThisMonthEl = document.getElementById('new-this-month');
+
+        // Initialize the application
+        function init() {
+            // Load initial data
+            populateCommitteeFilters();
+            renderMembers();
+            renderCommittees();
+            updateDashboard();
+            
+            // Set up event listeners
+            setupEventListeners();
         }
+
+        // Set up all event listeners
+        function setupEventListeners() {
+            // Navigation
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const pageId = link.getAttribute('data-page');
+                    switchPage(pageId);
+                    
+                    // Update active class
+                    navLinks.forEach(l => l.classList.remove('active'));
+                    link.classList.add('active');
+                });
+            });
+            
+            // Mobile menu
+            mobileMenuBtn.addEventListener('click', () => {
+                navMenu.classList.toggle('open');
+            });
+            
+            // Member search and filter
+            memberSearch.addEventListener('input', filterMembers);
+            committeeFilter.addEventListener('change', filterMembers);
+            
+            // Committee search
+            committeeSearch.addEventListener('input', filterCommittees);
+            
+            // Add member button
+            addMemberBtn.addEventListener('click', openAddMemberModal);
+            
+            // Modal buttons
+            saveMemberBtn.addEventListener('click', saveMember);
+            cancelBtn.addEventListener('click', closeModal);
+            modalCloseBtn.addEventListener('click', closeModal);
+            
+            // Close modal when clicking outside
+            memberModal.addEventListener('click', (e) => {
+                if (e.target === memberModal) {
+                    closeModal();
+                }
+            });
+        }
+
+        // Switch between pages
+        function switchPage(pageId) {
+            pages.forEach(page => {
+                page.classList.remove('active');
+            });
+            document.getElementById(pageId).classList.add('active');
+            
+            // Close mobile menu if open
+            navMenu.classList.remove('open');
+        }
+
+        // Populate committee filters and selects
+        function populateCommitteeFilters() {
+            // Clear existing options
+            committeeFilter.innerHTML = '<option value="">All Committees</option>';
+            committeeSelect.innerHTML = '<option value="">Select a committee</option>';
+            
+            // Add committee options
+            committees.forEach(committee => {
+                const option1 = document.createElement('option');
+                option1.value = committee.name;
+                option1.textContent = committee.name;
+                committeeFilter.appendChild(option1);
+                
+                const option2 = document.createElement('option');
+                option2.value = committee.name;
+                option2.textContent = committee.name;
+                committeeSelect.appendChild(option2);
+            });
+        }
+
+        // Render members list
+        function renderMembers(membersToRender = members) {
+            membersList.innerHTML = '';
+            
+            if (membersToRender.length === 0) {
+                membersList.innerHTML = '<div class="card"><p>No members found.</p></div>';
+                return;
+            }
+            
+            membersToRender.forEach(member => {
+                const memberCard = document.createElement('div');
+                memberCard.className = 'member-card';
+                memberCard.innerHTML = `
+                    <h3 class="member-name">${member.name}</h3>
+                    <div class="member-detail">
+                        <span class="detail-label">Role:</span>
+                        <span>${member.role}</span>
+                    </div>
+                    <div class="member-detail">
+                        <span class="detail-label">Committee:</span>
+                        <span>${member.committee}</span>
+                    </div>
+                    <div class="member-detail">
+                        <span class="detail-label">Email:</span>
+                        <span>${member.email}</span>
+                    </div>
+                    <div class="member-detail">
+                        <span class="detail-label">Phone:</span>
+                        <span>${member.phone || 'N/A'}</span>
+                    </div>
+                    <div class="member-actions">
+                        <button class="btn btn-secondary btn-sm edit-btn" data-id="${member.id}">Edit</button>
+                        <button class="btn btn-danger btn-sm delete-btn" data-id="${member.id}">Delete</button>
+                    </div>
+                `;
+                
+                membersList.appendChild(memberCard);
+            });
+            
+            // Add event listeners to edit and delete buttons
+            document.querySelectorAll('.edit-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const id = e.target.getAttribute('data-id');
+                    openEditMemberModal(id);
+                });
+            });
+            
+            document.querySelectorAll('.delete-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const id = e.target.getAttribute('data-id');
+                    deleteMember(id);
+                });
+            });
+        }
+
+        // Render committees list
+        function renderCommittees(committeesToRender = committees) {
+            committeesList.innerHTML = '';
+            
+            committeesToRender.forEach(committee => {
+                const committeeCard = document.createElement('div');
+                committeeCard.className = 'committee-card';
+                committeeCard.innerHTML = `
+                    <h3 class="committee-name">${committee.name}</h3>
+                    <p class="committee-description">${committee.description}</p>
+                    <div class="committee-leadership">
+                        <div class="leader-item">
+                            <span class="leader-role">Leader:</span>
+                            <span>${committee.leader}</span>
+                        </div>
+                        <div class="leader-item">
+                            <span class="leader-role">Deputy:</span>
+                            <span>${committee.deputy}</span>
+                        </div>
+                    </div>
+                `;
+                
+                committeesList.appendChild(committeeCard);
+            });
+        }
+
+        // Filter members based on search and committee
+        function filterMembers() {
+            const searchTerm = memberSearch.value.toLowerCase();
+            const committeeValue = committeeFilter.value;
+            
+            const filteredMembers = members.filter(member => {
+                const matchesSearch = member.name.toLowerCase().includes(searchTerm) || 
+                                     member.role.toLowerCase().includes(searchTerm) ||
+                                     member.email.toLowerCase().includes(searchTerm);
+                
+                const matchesCommittee = committeeValue === '' || member.committee === committeeValue;
+                
+                return matchesSearch && matchesCommittee;
+            });
+            
+            renderMembers(filteredMembers);
+        }
+
+        // Filter committees based on search
+        function filterCommittees() {
+            const searchTerm = committeeSearch.value.toLowerCase();
+            
+            const filteredCommittees = committees.filter(committee => {
+                return committee.name.toLowerCase().includes(searchTerm) || 
+                       committee.description.toLowerCase().includes(searchTerm) ||
+                       committee.leader.toLowerCase().includes(searchTerm) ||
+                       committee.deputy.toLowerCase().includes(searchTerm);
+            });
+            
+            renderCommittees(filteredCommittees);
+        }
+
+        // Open modal to add a new member
+        function openAddMemberModal() {
+            modalTitle.textContent = 'Add Member';
+            memberForm.reset();
+            memberIdInput.value = '';
+            memberModal.classList.remove('hidden');
+        }
+
+        // Open modal to edit an existing member
+        function openEditMemberModal(id) {
+            const member = members.find(m => m.id == id);
+            if (!member) return;
+            
+            modalTitle.textContent = 'Edit Member';
+            memberIdInput.value = member.id;
+            nameInput.value = member.name;
+            roleInput.value = member.role;
+            emailInput.value = member.email;
+            phoneInput.value = member.phone || '';
+            committeeSelect.value = member.committee;
+            
+            memberModal.classList.remove('hidden');
+        }
+
+        // Close modal
+        function closeModal() {
+            memberModal.classList.add('hidden');
+        }
+
+        // Save member (add or update)
+        function saveMember() {
+            // Basic validation
+            if (!nameInput.value.trim() || !roleInput.value.trim() || 
+                !emailInput.value.trim() || !committeeSelect.value) {
+                alert('Please fill in all required fields.');
+                return;
+            }
+            
+            const memberData = {
+                name: nameInput.value.trim(),
+                role: roleInput.value.trim(),
+                email: emailInput.value.trim(),
+                phone: phoneInput.value.trim(),
+                committee: committeeSelect.value,
+                joinDate: new Date().toISOString()
+            };
+            
+            if (memberIdInput.value) {
+                // Update existing member
+                const index = members.findIndex(m => m.id == memberIdInput.value);
+                if (index !== -1) {
+                    // Preserve the original ID and join date
+                    memberData.id = members[index].id;
+                    memberData.joinDate = members[index].joinDate;
+                    members[index] = memberData;
+                    
+                    // Add to activity log
+                    addActivity(`Member updated: ${memberData.name}`);
+                }
+            } else {
+                // Add new member
+                memberData.id = Date.now().toString(); // Simple ID generation
+                members.push(memberData);
+                
+                // Add to activity log
+                addActivity(`New member added: ${memberData.name}`);
+            }
+            
+            // Save to localStorage
+            localStorage.setItem('members', JSON.stringify(members));
+            
+            // Update UI
+            renderMembers();
+            updateDashboard();
+            closeModal();
+        }
+
+        // Delete a member
+        function deleteMember(id) {
+            if (!confirm('Are you sure you want to delete this member?')) return;
+            
+            const member = members.find(m => m.id == id);
+            if (!member) return;
+            
+            members = members.filter(m => m.id != id);
+            
+            // Save to localStorage
+            localStorage.setItem('members', JSON.stringify(members));
+            
+            // Add to activity log
+            addActivity(`Member deleted: ${member.name}`);
+            
+            // Update UI
+            renderMembers();
+            updateDashboard();
+        }
+
+        // Update dashboard statistics
+        function updateDashboard() {
+            totalMembersEl.textContent = members.length;
+            totalCommitteesEl.textContent = committees.length;
+            
+            // Calculate new members this month (for demo, just show some number)
+            const newThisMonth = members.filter(m => {
+                const joinDate = new Date(m.joinDate);
+                const now = new Date();
+                return joinDate.getMonth() === now.getMonth() && 
+                       joinDate.getFullYear() === now.getFullYear();
+            }).length;
+            
+            newThisMonthEl.textContent = newThisMonth;
+        }
+
+        // Add activity to the activity log (simplified for demo)
+        function addActivity(text) {
+            const activitiesList = document.getElementById('activities-list');
+            const activityItem = document.createElement('div');
+            activityItem.className = 'activity-item';
+            
+            const now = new Date();
+            const timeString = now.toLocaleTimeString();
+            
+            activityItem.innerHTML = `
+                <div class="activity-icon">+</div>
+                <div>
+                    <div>${text}</div>
+                    <small>${timeString}</small>
+                </div>
+            `;
+            
+            // Add to top of list
+            activitiesList.insertBefore(activityItem, activitiesList.firstChild);
+            
+            // Limit to 5 activities
+            if (activitiesList.children.length > 5) {
+                activitiesList.removeChild(activitiesList.lastChild);
+            }
+        }
+
+        // Initialize the app when DOM is loaded
+        document.addEventListener('DOMContentLoaded', init);
     </script>
 </body>
 </html>
-
-
-
